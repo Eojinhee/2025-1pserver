@@ -1,9 +1,24 @@
 import uvicorn
-from fastapi import  FastAPI
+from fastapi import FastAPI
 
+from fastapi.middleware.cors import CORSMiddleware
 from irisModel import IrisMachineLearning, IrisSpecies
 
 app = FastAPI()
+
+app = FastAPI()
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 model = IrisMachineLearning()
 
@@ -18,8 +33,9 @@ async def predict():
 
 @app.post("/predict")
 async def predict_species(iris:IrisSpecies):
-    pred = model.predict_species(iris.sepal_length, iris.sepal_width, iris.petal_length, iris.petal_width)
-    return {"prediction":pred}
+    pred, prob = model.predict_species(iris.sepal_length, iris.sepal_width, iris.petal_length, iris.petal_width)
+
+    return {"prediction":pred, "probability":prob}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)
