@@ -1,16 +1,17 @@
-function Send(){
+function Send() {
 
-sl = document.getElementById("sl")
-sw = document.getElementById("sw")
-pl = document.getElementById("pl")
-pw = document.getElementById("pw")
+    s1 = document.getElementById("sl")
+    sw = document.getElementById("sw")
+    pl = document.getElementById("pl")
+    pw = document.getElementById("pw")
 
-  var data = {
-    'sepal_length': sl.value,
-    'sepal_width': sw.value,
-    'petal_length': pl.value,
-    'petal_width': pw.value,
-  }
+    var data = {
+        "sepal_length":s1,
+        "sepal_width": sw,
+        "petal_length": pl,
+        "petal_width": pw
+    }
+
 
   $.ajax({
     type: "POST",
@@ -22,18 +23,12 @@ pw = document.getElementById("pw")
     data: JSON.stringify(data),
 
   }).done(function(response) {
+      txtOut.value = response.prediction
+      console.log(response)
 
-        txtOut.value = response.prediction + "  " + response.probability
+  }).fail(function(response) {
+      alert("fail: " + response)
 
-        console.log(response)
-
-
-  }).fail(function(error) {
-    alert("!/js/user.js에서 에러발생: " + error.statusText);
-    console.log(error)
-  }).always(function(r){
-    console.log("always" + r)
-  });
-
-
+  }
+  ).always()
 }
