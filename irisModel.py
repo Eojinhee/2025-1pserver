@@ -10,7 +10,7 @@ from irisModelBase import probability
 
 class IrisSpecies(BaseModel):
     sepal_length: float
-    sepal_width:float
+    sepal_width: float
     petal_length: float
     petal_width: float
 
@@ -25,7 +25,7 @@ class IrisMachineLearning:
             joblib.dump(self.model_rfc, self.rfc_fname)
         return
 
-    def rfc_train(self):
+    def rfc_train(self ):
         X = self.iris_df.drop('species', axis=1)
         y = self.iris_df['species']
         rfc = RandomForestClassifier()
@@ -36,5 +36,5 @@ class IrisMachineLearning:
         X_new = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
         prediction = self.model_rfc.predict(X_new)
         probability = self.model_rfc.predict_proba(X_new).max()
-        print(prediction)
+        print(probability)
         return prediction[0], probability
